@@ -4,6 +4,26 @@
     <groupId>com.ut.oop</groupId>
     <artifactId>oop</artifactId>
     <version>1</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+
+
+    </dependencies>>
+
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -8,10 +8,14 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class Server implements Runnable {
     private Selector selector;
     private final InetSocketAddress socketAddress;
+    private final Logger logger = LoggerFactory.getLogger(Server.class);
 
     public Server(String address, int port) {
         this.socketAddress = new InetSocketAddress(address, port);
@@ -94,6 +98,8 @@ public class Server implements Runnable {
             }
         } catch (IOException e) {
             // TODO: error handling
+            System.out.println("Server process failed");
+            logger.error("Server process failed");
             e.printStackTrace();
         }
     }
