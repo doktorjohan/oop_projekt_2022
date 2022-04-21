@@ -3,12 +3,20 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class Socket {
-    private final SocketChannel socketChannel;
+    private final int id;
+    public final SocketChannel socketChannel;
+    public final DataReader dataReader;
     private boolean endOfStream;
 
-    public Socket(SocketChannel socketChannel) {
+    public Socket(int id, SocketChannel socketChannel) {
+        this.id = id;
         this.socketChannel = socketChannel;
+        this.dataReader = new TestDataReader();
         this.endOfStream = false;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public boolean isEndOfStream() {
