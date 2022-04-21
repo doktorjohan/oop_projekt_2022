@@ -14,7 +14,7 @@ public class SocketProcessor implements Runnable {
     private final Map<Integer, Socket> socketMap;
 
     private final Selector readSelector;
-    private Selector writeSelector;
+    private final Selector writeSelector;
 
     private final ByteBuffer readByteBuffer;
     private final ByteBuffer writeByteBuffer;

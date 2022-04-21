@@ -6,12 +6,14 @@ public class Socket {
     private final int id;
     public final SocketChannel socketChannel;
     public final DataReader dataReader;
+    public final DataProcessor dataProcessor;
     private boolean endOfStream;
 
-    public Socket(int id, SocketChannel socketChannel) {
+    public Socket(int id, SocketChannel socketChannel, DataReader dataReader, DataProcessor dataProcessor) {
         this.id = id;
         this.socketChannel = socketChannel;
-        this.dataReader = new TestDataReader();
+        this.dataReader = dataReader;
+        this.dataProcessor = dataProcessor;
         this.endOfStream = false;
     }
 

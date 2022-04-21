@@ -28,7 +28,7 @@ public class SocketAccepter implements Runnable {
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress(ServerConfig.PORT));
 
-            logger.info("Socket channel opened on port " + ServerConfig.PORT);
+            logger.info("Server socket channel opened on port " + ServerConfig.PORT);
         } catch (IOException e) {
             logger.error(e.getMessage());
             return;
@@ -37,7 +37,8 @@ public class SocketAccepter implements Runnable {
         while (true) {
             try {
                 SocketChannel socketChannel = serverSocketChannel.accept();
-                this.socketQueue.add(new Socket(nextSocketId++, socketChannel));
+                // TODO: factory to determine socket type (currently using test)
+                this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataProcessor()));
 
                 logger.info("Socket accepted: " + (nextSocketId - 1));
             } catch (IOException e) {
