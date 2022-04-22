@@ -38,7 +38,7 @@ public class SocketAccepter implements Runnable {
             try {
                 SocketChannel socketChannel = serverSocketChannel.accept();
                 // TODO: factory to determine socket type (currently using test)
-                this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataProcessor()));
+                this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataWriter(), new TestDataProcessor()));
 
                 logger.info("Socket accepted: " + (nextSocketId - 1));
             } catch (IOException e) {

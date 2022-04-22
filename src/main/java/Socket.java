@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -6,15 +7,21 @@ public class Socket {
     private final int id;
     public final SocketChannel socketChannel;
     public final DataReader dataReader;
+    public final DataWriter dataWriter;
     public final DataProcessor dataProcessor;
+    public String message; // TODO: create class for data storage on socket
     private boolean endOfStream;
 
-    public Socket(int id, SocketChannel socketChannel, DataReader dataReader, DataProcessor dataProcessor) {
+    public Socket(int id, SocketChannel socketChannel, DataReader dataReader,
+                  DataWriter dataWriter, DataProcessor dataProcessor) {
+
         this.id = id;
         this.socketChannel = socketChannel;
         this.dataReader = dataReader;
+        this.dataWriter = dataWriter;
         this.dataProcessor = dataProcessor;
         this.endOfStream = false;
+
     }
 
     public int getId() {

@@ -82,6 +82,8 @@ public class SocketProcessor implements Runnable {
         Socket socket = (Socket) selectionKey.attachment();
         socket.dataReader.read(socket, this.readByteBuffer);
 
+        socket.dataProcessor.process(readByteBuffer, socket);
+
         // TODO: get all data and pass to dataprocessor
 
         if (socket.isEndOfStream()) {
@@ -102,5 +104,17 @@ public class SocketProcessor implements Runnable {
     }
 
     private void writeSockets() {
+        Set<SelectionKey> selectedKeys = this.writeSelector.selectedKeys();
+
+        selectedKeys.forEach(this::writeSocket);
+        selectedKeys.clear();
+    }
+
+    private void writeSocket(SelectionKey selectionKey) {
+        Socket socket = (Socket) selectionKey.attachment();
+        socket.dataWriter.write(socket, this.writeByteBuffer);
+
+        // TODO: data from dataprocessor back to client
+
     }
 }
