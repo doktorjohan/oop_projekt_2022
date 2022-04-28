@@ -1,3 +1,8 @@
+package com.ut.oop;
+
+import com.ut.oop.processor.EchoDataProcessor;
+import com.ut.oop.readers.FileDataReader;
+import com.ut.oop.writers.FileDataWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -5,7 +10,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class SocketAccepter implements Runnable {
@@ -62,7 +66,7 @@ public class SocketAccepter implements Runnable {
                         }
 
                     }
-                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataWriter(), new TestDataProcessor()));
+                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new FileDataReader(), new FileDataWriter(), new EchoDataProcessor()));
                     logger.info("Socket accepted: " + (nextSocketId - 1));
                 };
 

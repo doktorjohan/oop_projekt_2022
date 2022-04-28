@@ -1,9 +1,14 @@
+package com.ut.oop.writers;
+
+import com.ut.oop.DataWriter;
+import com.ut.oop.Server;
+import com.ut.oop.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class TestDataWriter implements DataWriter{
+public class FileDataWriter implements DataWriter {
     private final Logger logger = LoggerFactory.getLogger(Server.class);
 
     @Override

@@ -1,7 +1,11 @@
-// for testing purposes, decodes byteBuffer into string
+package com.ut.oop.processor;// for testing purposes, decodes byteBuffer into string
 // TODO: message parsing, store requests somewhere
 
-public class TestDataProcessor implements DataProcessor {
+import com.ut.oop.DataProcessor;
+import com.ut.oop.MessageData;
+import com.ut.oop.Socket;
+
+public class EchoDataProcessor implements DataProcessor {
     @Override
     public void process(MessageData message, Socket socket) {
 
