@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Queue;
+import java.sql.SQLOutput;
+import java.util.*;
 
 public class SocketAccepter implements Runnable {
     private final Logger logger;
@@ -40,6 +41,27 @@ public class SocketAccepter implements Runnable {
 
                 Runnable socketSetup = () -> {
                     // TODO: siin saab kasutaja sisendit küsidda socketi seadistamiseks
+                    System.out.println("To choose a device or format type: arduino/rasp-pi/tekst");
+                    List<String> formats = Arrays.asList("arduino", "rasp-pi", "tekst");
+                    Scanner sc = new Scanner(System.in);
+                    label:
+                    while (true) {
+                        String request = sc.next().toLowerCase(Locale.ROOT);
+                        if (!formats.contains(request)) {
+                            System.out.println("Choose correct format to proceed.");
+                        }
+                        else{
+                            switch (request) {
+                                case "arduino":
+                                    break label;
+                                case "rasp-pi":
+                                    break label;
+                                case "tekst":
+                                    break label;
+                            }
+                        }
+
+                    }
                     this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataWriter(), new TestDataProcessor()));
                     logger.info("Socket accepted: " + (nextSocketId - 1));
                 };
