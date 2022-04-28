@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class TestDataWriter implements DataWriter{
-
     private final Logger logger = LoggerFactory.getLogger(Server.class);
 
     @Override
