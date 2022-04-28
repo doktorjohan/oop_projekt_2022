@@ -1,5 +1,7 @@
 import java.nio.ByteBuffer;
 
 public interface DataReader {
-    void read(Socket socket, ByteBuffer byteBuffer);
+
+    void read(Socket socket);
+
 }

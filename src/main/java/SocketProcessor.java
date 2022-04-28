@@ -16,9 +16,6 @@ public class SocketProcessor implements Runnable {
     private final Selector readSelector;
     private final Selector writeSelector;
 
-    private final ByteBuffer readByteBuffer;
-    private final ByteBuffer writeByteBuffer;
-
     public SocketProcessor(Queue<Socket> socketQueue) throws IOException {
         this.logger = LoggerFactory.getLogger(Server.class);
 
@@ -27,9 +24,6 @@ public class SocketProcessor implements Runnable {
 
         this.readSelector = Selector.open();
         this.writeSelector = Selector.open();
-
-        this.readByteBuffer = ByteBuffer.allocate(1024 * 1024);
-        this.writeByteBuffer = ByteBuffer.allocate(1024 * 1024);
     }
 
     @Override
@@ -80,11 +74,8 @@ public class SocketProcessor implements Runnable {
 
     private void readSocket(SelectionKey selectionKey) {
         Socket socket = (Socket) selectionKey.attachment();
-        socket.dataReader.read(socket, this.readByteBuffer);
 
-        socket.dataProcessor.process(readByteBuffer, socket);
-
-        // TODO: get all data and pass to dataprocessor
+        socket.dataReader.read(socket);
 
         if (socket.isEndOfStream()) {
             int socketId = socket.getId();
@@ -112,9 +103,6 @@ public class SocketProcessor implements Runnable {
 
     private void writeSocket(SelectionKey selectionKey) {
         Socket socket = (Socket) selectionKey.attachment();
-        socket.dataWriter.write(socket, this.writeByteBuffer);
-
-        // TODO: data from dataprocessor back to client
-
+        socket.dataProcessor.process(socket.getMessage(), socket);
     }
 }

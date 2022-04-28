@@ -1,3 +1,4 @@
+
 import java.nio.ByteBuffer;
 
 // for testing purposes, decodes byteBuffer into string
@@ -5,8 +6,11 @@ import java.nio.ByteBuffer;
 
 public class TestDataProcessor implements DataProcessor {
     @Override
-    public void process(ByteBuffer byteBuffer, Socket socket) {
-        byte[] readBytes = new byte[1024 * 1024];
-        socket.message = new String(readBytes);
+    public void process(MessageData message, Socket socket) {
+
+        String messageAsString = message.toString();
+        System.out.println(messageAsString + " from TestDataProcessor");
+        socket.dataWriter.write(socket, message.getMessage());
+
     }
 }

@@ -9,7 +9,7 @@ public class Socket {
     public final DataReader dataReader;
     public final DataWriter dataWriter;
     public final DataProcessor dataProcessor;
-    public String message; // TODO: create class for data storage on socket
+    private MessageData message;
     private boolean endOfStream;
 
     public Socket(int id, SocketChannel socketChannel, DataReader dataReader,
@@ -30,6 +30,14 @@ public class Socket {
 
     public boolean isEndOfStream() {
         return endOfStream;
+    }
+
+    public MessageData getMessage() {
+        return message;
+    }
+
+    public void setMessage(MessageData message) {
+        this.message = message;
     }
 
     public int read(ByteBuffer byteBuffer) throws IOException {

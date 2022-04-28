@@ -10,11 +10,10 @@ public class TestDataWriter implements DataWriter{
     @Override
     public void write(Socket socket, ByteBuffer byteBuffer) {
         try {
-            int bytesread = socket.read(byteBuffer);
-            System.out.println("Socket got bytes(if you have coin): " + bytesread);
+            socket.write(byteBuffer);
         } catch (IOException e) {
-            logger.error(e.getMessage() + " testdatawriter");
             e.printStackTrace();
+            logger.error("Error with writing data to socket");
         }
     }
 }
