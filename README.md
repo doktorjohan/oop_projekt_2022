@@ -6,6 +6,7 @@
 - Lihtne lisada andemtöötlusblokke soovitud vastuste saamiseks
 
 ### Vajaka:
+- Andmete protokoll
 - Kontroller (CLI) seadmete lisamiseks, testimiseks
 - Näidis andmetöötlusblokid
 - Struktuuri tuleks parandada
