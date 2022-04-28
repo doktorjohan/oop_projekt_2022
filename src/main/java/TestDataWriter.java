@@ -8,12 +8,21 @@ public class TestDataWriter implements DataWriter{
     private final Logger logger = LoggerFactory.getLogger(Server.class);
 
     @Override
-    public void write(Socket socket, ByteBuffer byteBuffer) {
+    public int write(Socket socket, ByteBuffer byteBuffer){
+        int bytesWritten = 0;
+        int totalBytesWritten = bytesWritten;
         try {
-            socket.write(byteBuffer);
+            bytesWritten = socket.socketChannel.write(byteBuffer);
+
+            while (bytesWritten > 0 && byteBuffer.hasRemaining()) {
+                bytesWritten = socket.socketChannel.write(byteBuffer);
+                totalBytesWritten += bytesWritten;
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("Error with writing data to socket");
+            logger.error("Error with writing data back to socket: TestDataWriter");
         }
+
+        return totalBytesWritten;
     }
 }

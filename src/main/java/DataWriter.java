@@ -1,5 +1,5 @@
 import java.nio.ByteBuffer;
 
 public interface DataWriter {
-    void write(Socket socket, ByteBuffer byteBuffer);
+    int write(Socket socket, ByteBuffer byteBuffer);
 }

@@ -75,7 +75,12 @@ public class SocketProcessor implements Runnable {
     private void readSocket(SelectionKey selectionKey) {
         Socket socket = (Socket) selectionKey.attachment();
 
-        socket.dataReader.read(socket);
+        try {
+            socket.read();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            logger.error(ioe.getMessage() + " on socketprocessor readSocket()");
+        }
 
         if (socket.isEndOfStream()) {
             int socketId = socket.getId();
@@ -103,6 +108,12 @@ public class SocketProcessor implements Runnable {
 
     private void writeSocket(SelectionKey selectionKey) {
         Socket socket = (Socket) selectionKey.attachment();
-        socket.dataProcessor.process(socket.getMessage(), socket);
+        try {
+            socket.write();
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage() + " from SocketProcessor writeSocket()");
+        }
+
     }
 }

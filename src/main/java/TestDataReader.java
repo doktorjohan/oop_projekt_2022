@@ -3,16 +3,24 @@ import java.nio.ByteBuffer;
 
 public class TestDataReader implements DataReader {
     @Override
-    public void read(Socket socket) {
+    public int read(Socket socket, ByteBuffer byteBuffer) {
         try {
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024 * 1024);
-            int bytesRead = socket.read(byteBuffer);
+            int bytesRead = socket.socketChannel.read(byteBuffer);
+            int totalBytesRead = bytesRead;
 
-            socket.setMessage(new MessageData(byteBuffer, bytesRead));
+            while (bytesRead > 0) {
+                bytesRead = socket.socketChannel.read(byteBuffer);
+                totalBytesRead += bytesRead;
+            }
+
+            if (bytesRead == -1)
+                socket.setEndOfStream(true);
+
+            return totalBytesRead;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return -1;
     }
 }

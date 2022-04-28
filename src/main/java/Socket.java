@@ -12,6 +12,9 @@ public class Socket {
     private MessageData message;
     private boolean endOfStream;
 
+    ByteBuffer readBytes;
+    ByteBuffer writeBytes;
+
     public Socket(int id, SocketChannel socketChannel, DataReader dataReader,
                   DataWriter dataWriter, DataProcessor dataProcessor) {
 
@@ -32,6 +35,10 @@ public class Socket {
         return endOfStream;
     }
 
+    public void setEndOfStream(boolean endOfStream) {
+        this.endOfStream = endOfStream;
+    }
+
     public MessageData getMessage() {
         return message;
     }
@@ -40,30 +47,11 @@ public class Socket {
         this.message = message;
     }
 
-    public int read(ByteBuffer byteBuffer) throws IOException {
-        int bytesRead = socketChannel.read(byteBuffer);
-        int totalBytesRead = bytesRead;
-
-        while (bytesRead > 0) {
-            bytesRead = socketChannel.read(byteBuffer);
-            totalBytesRead += bytesRead;
-        }
-
-        if (bytesRead == -1)
-            this.endOfStream = true;
-
-        return totalBytesRead;
+    public void read() throws IOException {
+        int totalBytesRead = this.dataReader.read(this, readBytes);
     }
 
-    public int write(ByteBuffer byteBuffer) throws IOException {
-        int bytesWritten = socketChannel.write(byteBuffer);
-        int totalBytesWritten = bytesWritten;
-
-        while (bytesWritten > 0 && byteBuffer.hasRemaining()) {
-            bytesWritten = socketChannel.write(byteBuffer);
-            totalBytesWritten += bytesWritten;
-        }
-
-        return totalBytesWritten;
+    public void write() throws IOException {
+        this.dataWriter.write(this, readBytes);
     }
 }
