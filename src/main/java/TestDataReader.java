@@ -13,6 +13,5 @@ public class TestDataReader implements DataReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
