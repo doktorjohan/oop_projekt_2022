@@ -1,4 +1,11 @@
-# oop_projekt_2022
+# Objektorienteeritud programmeerimine rühmatöö
+## IOT-controller server
 ***
-### version 0.1
-jes
+### Võimalused:
+- Mitmete klientide samaegne ühendus non-blocking IO abil
+- Lihtne lisada andemtöötlusblokke soovitud vastuste saamiseks
+
+### Vajaka:
+- Kontroller (CLI) seadmete lisamiseks, testimiseks
+- Näidis andmetöötlusblokid
+- Struktuuri tuleks parandada
