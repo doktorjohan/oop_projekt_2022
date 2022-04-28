@@ -37,10 +37,14 @@ public class SocketAccepter implements Runnable {
         while (true) {
             try {
                 SocketChannel socketChannel = serverSocketChannel.accept();
-                // TODO: factory to determine socket type (currently using test)
-                this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataWriter(), new TestDataProcessor()));
 
-                logger.info("Socket accepted: " + (nextSocketId - 1));
+                Runnable socketSetup = () -> {
+                    // TODO: siin saab kasutaja sisendit küsidda socketi seadistamiseks
+                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new TestDataReader(), new TestDataWriter(), new TestDataProcessor()));
+                    logger.info("Socket accepted: " + (nextSocketId - 1));
+                };
+
+                new Thread(socketSetup).start();
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
