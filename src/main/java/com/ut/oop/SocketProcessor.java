@@ -35,7 +35,7 @@ public class SocketProcessor implements Runnable {
             try {
                 addSockets();
                 readSockets();
-                writeSockets();
+                processSockets();
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
@@ -101,21 +101,15 @@ public class SocketProcessor implements Runnable {
         }
     }
 
-    private void writeSockets() {
+    private void processSockets() {
         Set<SelectionKey> selectedKeys = this.writeSelector.selectedKeys();
 
-        selectedKeys.forEach(this::writeSocket);
+        selectedKeys.forEach(this::processSocket);
         selectedKeys.clear();
     }
 
-    private void writeSocket(SelectionKey selectionKey) {
+    private void processSocket(SelectionKey selectionKey) { // socket.process() processes data and writes to socket
         Socket socket = (Socket) selectionKey.attachment();
-        try {
-            socket.write();
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage() + " from SocketProcessor writeSocket()");
-        }
-
+        socket.process();
     }
 }
