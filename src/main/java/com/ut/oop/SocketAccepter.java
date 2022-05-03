@@ -1,5 +1,8 @@
 package com.ut.oop;
 
+import com.ut.oop.controllers.ArduinoController;
+import com.ut.oop.controllers.DataController;
+import com.ut.oop.controllers.RasPiController;
 import com.ut.oop.processor.EchoDataProcessor;
 import com.ut.oop.controllers.FileDataController;
 import com.ut.oop.writers.FileDataWriter;
@@ -49,6 +52,8 @@ public class SocketAccepter implements Runnable {
                     List<String> formats = Arrays.asList("arduino", "rasp-pi", "tekst");
                     Scanner sc = new Scanner(System.in);
 
+                    DataController controller;
+
                     label:
                     while (true) {
                         String request = sc.next().toLowerCase(Locale.ROOT);
@@ -58,16 +63,19 @@ public class SocketAccepter implements Runnable {
                         else{
                             switch (request) { // TODO: get correct controller
                                 case "arduino":
+                                    controller = new ArduinoController();
                                     break label;
                                 case "rasp-pi":
+                                    controller = new RasPiController();
                                     break label;
                                 case "tekst":
+                                    controller = new FileDataController();
                                     break label;
                             }
                         }
                     }
 
-                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new FileDataController(), new FileDataWriter(), new EchoDataProcessor()));
+                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, controller, new FileDataWriter(), new EchoDataProcessor()));
                     logger.info("Socket accepted: " + (nextSocketId - 1));
                 };
 
