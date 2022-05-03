@@ -78,6 +78,7 @@ public class SocketProcessor implements Runnable {
 
         try {
             socket.read();
+            socket.process();
         } catch (IOException ioe) {
             ioe.printStackTrace();
             logger.error(ioe.getMessage() + " on socketprocessor readSocket()");

@@ -55,6 +55,11 @@ public class Socket {
 
     public void read() throws IOException {
         int totalBytesRead = this.dataController.read(this, readBytes);
+        message = new MessageData(readBytes, totalBytesRead);
+    }
+
+    public void process() {
+        this.dataProcessor.process(this, message);
     }
 
     public void write() throws IOException {
