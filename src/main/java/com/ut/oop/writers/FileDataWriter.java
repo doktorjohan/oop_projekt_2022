@@ -1,6 +1,5 @@
 package com.ut.oop.writers;
 
-import com.ut.oop.DataWriter;
 import com.ut.oop.Server;
 import com.ut.oop.Socket;
 import org.slf4j.Logger;

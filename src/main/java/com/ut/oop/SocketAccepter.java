@@ -48,6 +48,7 @@ public class SocketAccepter implements Runnable {
                     System.out.println("To choose a device or format type: arduino/rasp-pi/tekst");
                     List<String> formats = Arrays.asList("arduino", "rasp-pi", "tekst");
                     Scanner sc = new Scanner(System.in);
+
                     label:
                     while (true) {
                         String request = sc.next().toLowerCase(Locale.ROOT);
@@ -55,7 +56,7 @@ public class SocketAccepter implements Runnable {
                             System.out.println("Choose correct format to proceed.");
                         }
                         else{
-                            switch (request) {
+                            switch (request) { // TODO: get correct controller
                                 case "arduino":
                                     break label;
                                 case "rasp-pi":
@@ -64,8 +65,8 @@ public class SocketAccepter implements Runnable {
                                     break label;
                             }
                         }
-
                     }
+
                     this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new FileDataController(), new FileDataWriter(), new EchoDataProcessor()));
                     logger.info("Socket accepted: " + (nextSocketId - 1));
                 };

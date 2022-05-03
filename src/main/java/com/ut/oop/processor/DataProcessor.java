@@ -1,4 +1,7 @@
-package com.ut.oop;
+package com.ut.oop.processor;
+
+import com.ut.oop.MessageData;
+import com.ut.oop.Socket;
 
 public interface DataProcessor {
 

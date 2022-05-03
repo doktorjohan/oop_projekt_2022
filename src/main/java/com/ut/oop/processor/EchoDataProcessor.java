@@ -2,7 +2,6 @@ package com.ut.oop.processor;
 // for testing purposes, decodes byteBuffer into string
 // TODO: message parsing, store requests somewhere
 
-import com.ut.oop.DataProcessor;
 import com.ut.oop.MessageData;
 import com.ut.oop.Socket;
 
