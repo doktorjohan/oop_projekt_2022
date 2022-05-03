@@ -7,7 +7,7 @@ import java.nio.channels.SocketChannel;
 public class Socket {
     private final int id;
     public final SocketChannel socketChannel;
-    public final DataReader dataReader;
+    public final DataController dataController;
     public final DataWriter dataWriter;
     public final DataProcessor dataProcessor;
     private MessageData message;
@@ -16,12 +16,12 @@ public class Socket {
     ByteBuffer readBytes;
     ByteBuffer writeBytes;
 
-    public Socket(int id, SocketChannel socketChannel, DataReader dataReader,
+    public Socket(int id, SocketChannel socketChannel, DataController dataController,
                   DataWriter dataWriter, DataProcessor dataProcessor) {
 
         this.id = id;
         this.socketChannel = socketChannel;
-        this.dataReader = dataReader;
+        this.dataController = dataController;
         this.dataWriter = dataWriter;
         this.dataProcessor = dataProcessor;
         this.endOfStream = false;
@@ -49,7 +49,7 @@ public class Socket {
     }
 
     public void read() throws IOException {
-        int totalBytesRead = this.dataReader.read(this, readBytes);
+        int totalBytesRead = this.dataController.read(this, readBytes);
     }
 
     public void write() throws IOException {

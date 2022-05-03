@@ -1,7 +1,7 @@
 package com.ut.oop;
 
 import com.ut.oop.processor.EchoDataProcessor;
-import com.ut.oop.readers.FileDataReader;
+import com.ut.oop.controllers.FileDataController;
 import com.ut.oop.writers.FileDataWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +66,7 @@ public class SocketAccepter implements Runnable {
                         }
 
                     }
-                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new FileDataReader(), new FileDataWriter(), new EchoDataProcessor()));
+                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, new FileDataController(), new FileDataWriter(), new EchoDataProcessor()));
                     logger.info("Socket accepted: " + (nextSocketId - 1));
                 };
 

@@ -1,12 +1,12 @@
-package com.ut.oop.readers;
+package com.ut.oop.controllers;
 
-import com.ut.oop.DataReader;
+import com.ut.oop.DataController;
 import com.ut.oop.Socket;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class FileDataReader implements DataReader {
+public class FileDataController implements DataController {
     @Override
     public int read(Socket socket, ByteBuffer byteBuffer) {
         try {
