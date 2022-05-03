@@ -13,7 +13,7 @@ public class EchoDataProcessor implements DataProcessor {
 
         String messageAsString = message.toString();
         System.out.println(messageAsString + " from TestDataProcessor");
-        socket.dataWriter.write(socket, message.getMessage());
+        socket.write(message.getMessage());
 
     }
 }

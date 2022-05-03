@@ -62,7 +62,7 @@ public class Socket {
         this.dataProcessor.process(this, message);
     }
 
-    public void write() throws IOException {
-        this.dataWriter.write(this, readBytes);
+    public void write(ByteBuffer byteBuffer) {
+        this.dataWriter.write(this, byteBuffer);
     }
 }
