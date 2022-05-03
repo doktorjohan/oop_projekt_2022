@@ -1,6 +1,5 @@
 package com.ut.oop.controllers;
 
-import com.ut.oop.DataController;
 import com.ut.oop.Socket;
 
 import java.io.IOException;

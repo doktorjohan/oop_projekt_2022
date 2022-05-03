@@ -1,4 +1,12 @@
 package com.ut.oop.controllers;
 
-public class ArduinoController {
+import com.ut.oop.Socket;
+
+import java.nio.ByteBuffer;
+
+public class ArduinoController implements DataController{
+  @Override
+  public int read(Socket socket, ByteBuffer byteBuffer) {
+    return 0;
+  }
 }

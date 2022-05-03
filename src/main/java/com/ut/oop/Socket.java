@@ -1,7 +1,8 @@
 package com.ut.oop;
 
+import com.ut.oop.controllers.DataController;
 import com.ut.oop.processor.DataProcessor;
-import com.ut.oop.readers.DataReader;
+import com.ut.oop.controllers.DataController;
 import com.ut.oop.writers.DataWriter;
 
 import java.io.IOException;
