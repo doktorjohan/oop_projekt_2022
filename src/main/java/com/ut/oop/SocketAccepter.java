@@ -70,10 +70,13 @@ public class SocketAccepter implements Runnable {
                                     break label;
                                 case "tekst":
                                     controller = new FileDataController();
+                                    FileClient fileClient = new FileClient(socketChannel, "dummygen.txt");
+                                    fileClient.giveData();
                                     break label;
                             }
                         }
                     }
+
 
                     this.socketQueue.add(new Socket(nextSocketId++, socketChannel, controller, new FileDataWriter(), new EchoDataProcessor()));
                     logger.info("Socket accepted: " + (nextSocketId - 1));

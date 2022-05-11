@@ -17,11 +17,13 @@ public class FileDataController implements DataController {
                 totalBytesRead += bytesRead;
             }
 
+            /*
+
             if (bytesRead == -1)
                 socket.setEndOfStream(true);
 
             return totalBytesRead;
-
+*/
         } catch (IOException e) {
             e.printStackTrace();
         }
