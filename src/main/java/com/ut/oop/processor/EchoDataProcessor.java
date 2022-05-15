@@ -1,6 +1,4 @@
 package com.ut.oop.processor;
-// for testing purposes, decodes byteBuffer into string
-// TODO: message parsing, store requests somewhere
 
 import com.ut.oop.MessageData;
 import com.ut.oop.Socket;
@@ -15,7 +13,7 @@ public class EchoDataProcessor implements DataProcessor {
     public void process(Socket socket, MessageData message) {
 
         String messageAsString = message.toString();
-        System.out.println(messageAsString + " from TestDataProcessor");
+        System.out.println(messageAsString);
 
         socket.write(message.getMessage());
 

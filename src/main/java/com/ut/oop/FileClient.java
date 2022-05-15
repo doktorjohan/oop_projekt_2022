@@ -23,9 +23,10 @@ public class FileClient {
 
             SocketChannel client = SocketChannel.open(new InetSocketAddress(ServerConfig.PORT));
 
-            String type = "echo";
+            String type = "threshold";
             ByteBuffer typeBuffer = ByteBuffer.allocate(100);
             typeBuffer.put(type.getBytes(StandardCharsets.UTF_8));
+            typeBuffer.flip();
             client.write(typeBuffer);
             Thread.sleep(1000);
 

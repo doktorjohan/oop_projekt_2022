@@ -52,9 +52,6 @@ public class SocketAccepter implements Runnable {
 
                 final SocketChannel client = serverSocketChannel.accept();
 
-                this.socketQueue.add(new Socket(nextSocketId++, client, new FileDataController(), new FileDataWriter(), new EchoDataProcessor()));
-
-
                 Runnable socketSetup = () -> {
 
                     DataProcessor processor;
@@ -68,6 +65,7 @@ public class SocketAccepter implements Runnable {
                     }
 
                     String type = new String(typeBuffer.array()).trim();
+                    logger.info(type);
 
                     if ("threshold".equals(type)) {
                         processor = new ThresholdDataProcessor();

@@ -26,7 +26,7 @@ public class FileDataWriter implements DataWriter {
 
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("Error with writing data back to socket: TestDataWriter");
+            logger.error("Error with writing data back to socket");
         }
 
         return totalBytesWritten;
