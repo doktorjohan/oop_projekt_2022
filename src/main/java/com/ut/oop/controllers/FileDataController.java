@@ -5,6 +5,9 @@ import com.ut.oop.Socket;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+/**
+ * Reads data from SocketChannel into buffer present in Socket class
+ */
 public class FileDataController implements DataController {
   @Override
   public int read(Socket socket, ByteBuffer byteBuffer) {

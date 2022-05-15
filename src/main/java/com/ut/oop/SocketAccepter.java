@@ -1,8 +1,5 @@
 package com.ut.oop;
 
-import com.ut.oop.controllers.ArduinoController;
-import com.ut.oop.controllers.DataController;
-import com.ut.oop.controllers.RasPiController;
 import com.ut.oop.processor.DataProcessor;
 import com.ut.oop.processor.EchoDataProcessor;
 import com.ut.oop.controllers.FileDataController;
@@ -52,7 +49,7 @@ public class SocketAccepter implements Runnable {
 
                 final SocketChannel client = serverSocketChannel.accept();
 
-                Runnable socketSetup = () -> {
+                Runnable socketSetup = () -> { // socket is set up on new thread for maximum awesomeness
 
                     DataProcessor processor;
                     String processorLabel;

@@ -7,13 +7,20 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public class ThresholdDataProcessor implements DataProcessor {
+
+  /**
+   * Processes device requests for controlling thresholds set by user for e.g temperature.
+   * @param socket
+   * @param message instance of MessageData class
+   */
   @Override
   public void process(Socket socket, MessageData message) {
 
     String messageAsString = message.toString();
     ByteBuffer buffer = ByteBuffer.allocate(128);
 
-    String[] data = messageAsString.split("\n");
+    String[] data = messageAsString.split(System.lineSeparator()); // ei ole veel kindel lineseparatori osas :(
+
 
     double sum = 0;
     double i = 0;

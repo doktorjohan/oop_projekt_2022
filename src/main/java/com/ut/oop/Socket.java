@@ -2,7 +2,6 @@ package com.ut.oop;
 
 import com.ut.oop.controllers.DataController;
 import com.ut.oop.processor.DataProcessor;
-import com.ut.oop.controllers.DataController;
 import com.ut.oop.writers.DataWriter;
 
 import java.io.IOException;
@@ -66,6 +65,6 @@ public class Socket {
     }
 
     public String toString() {
-        return String.valueOf(id);
+        return "Socket number: " + id + " processor: " + this.dataProcessor.toString();
     }
 }
