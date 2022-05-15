@@ -17,7 +17,7 @@ public class TestTextGenerator {
 
         Path workingDir = Paths.get(System.getProperty("user.dir"));
         while (true) {
-            try (PrintWriter pw = new PrintWriter(new FileWriter(workingDir + "src\\dummy.txt", true), true)) {
+            try (PrintWriter pw = new PrintWriter(new FileWriter(workingDir + "\\src\\dummy.txt", true), true)) {
                 pw.println(new Random().nextDouble());
                 Thread.sleep(1500);
             } catch (IOException | InterruptedException e) {
