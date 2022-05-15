@@ -10,6 +10,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileClient {
 
@@ -18,21 +20,12 @@ public class FileClient {
     public static void main(String[] args) {
 
         try {
+
             SocketChannel client = SocketChannel.open(new InetSocketAddress(ServerConfig.PORT));
-
-
             giveData(client);
 
-            /*
-            ByteBuffer buffer = ByteBuffer.allocate(64);
-            buffer.put("echo test server pls respond".getBytes(StandardCharsets.UTF_8));
-            buffer.flip();
-            int bytesWritten = client.write(buffer);
-            //System.out.println("Sending message: " + new String(buffer.array()).trim() + " bytes: " + bytesWritten);
-*/
-
             while (true) {
-                ByteBuffer readBuffer = ByteBuffer.allocate(64);
+                ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 
                 try {
                     client.read(readBuffer);
@@ -58,8 +51,10 @@ public class FileClient {
 
     public static void giveData(SocketChannel socketChannel) {
 
+        Path workingDir = Paths.get(System.getProperty("user.dir"));
+
         try {
-            FileInputStream in = new FileInputStream(filename);
+            FileInputStream in = new FileInputStream(workingDir + "\\src\\" + filename);
             try (FileChannel channel = in.getChannel()) {
                 MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
                 while (buffer.hasRemaining()) {
