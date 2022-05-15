@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.*;
@@ -34,7 +35,8 @@ public class SocketAccepter implements Runnable {
 
         try {
             serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.bind(new InetSocketAddress(ServerConfig.PORT));
+            ServerSocket serverSocket = serverSocketChannel.socket();
+            serverSocket.bind(new InetSocketAddress(ServerConfig.PORT));
 
             logger.info("Server socket channel opened on port " + ServerConfig.PORT);
         } catch (IOException e) {
@@ -44,8 +46,14 @@ public class SocketAccepter implements Runnable {
 
         while (true) {
             try {
-                SocketChannel socketChannel = serverSocketChannel.accept();
 
+                SocketChannel client = serverSocketChannel.accept();
+
+                this.socketQueue.add(new Socket(nextSocketId++, client, new FileDataController(), new FileDataWriter(), new EchoDataProcessor()));
+
+
+
+                /*
                 Runnable socketSetup = () -> {
                     // TODO: siin saab kasutaja sisendit küsidda socketi seadistamiseks
                     System.out.println("To choose a device or format type: arduino/rasp-pi/tekst");
@@ -53,6 +61,7 @@ public class SocketAccepter implements Runnable {
                     Scanner sc = new Scanner(System.in);
 
                     DataController controller;
+
 
                     label:
                     while (true) {
@@ -70,8 +79,6 @@ public class SocketAccepter implements Runnable {
                                     break label;
                                 case "tekst":
                                     controller = new FileDataController();
-                                    FileClient fileClient = new FileClient(socketChannel, "dummygen.txt");
-                                    fileClient.giveData();
                                     break label;
                             }
                         }
@@ -83,6 +90,8 @@ public class SocketAccepter implements Runnable {
                 };
 
                 new Thread(socketSetup).start();
+
+                     */
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }

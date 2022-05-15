@@ -18,8 +18,7 @@ public class Socket {
     private MessageData message;
     private boolean endOfStream;
 
-    ByteBuffer readBytes;
-    ByteBuffer writeBytes;
+    ByteBuffer readBytes = ByteBuffer.allocate(1024);
 
     public Socket(int id, SocketChannel socketChannel, DataController dataController,
                   DataWriter dataWriter, DataProcessor dataProcessor) {
@@ -64,5 +63,9 @@ public class Socket {
 
     public void write(ByteBuffer byteBuffer) {
         this.dataWriter.write(this, byteBuffer);
+    }
+
+    public String toString() {
+        return String.valueOf(id);
     }
 }

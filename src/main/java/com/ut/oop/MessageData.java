@@ -13,7 +13,7 @@ public class MessageData {
   }
 
   public String toString() {
-    return new String(message.array());
+    return new String(message.array()).trim();
   }
 
   public ByteBuffer getMessage() {

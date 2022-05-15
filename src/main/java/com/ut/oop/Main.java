@@ -10,8 +10,6 @@ public class Main {
             Server.start();
 
             Thread.sleep(1000);
-            SocketChannel.open(new InetSocketAddress(ServerConfig.PORT));
-            //TestTextGenerator.generate();
         } catch (IOException e) {
             System.out.println("Failed to start server");
         } catch (InterruptedException e) {

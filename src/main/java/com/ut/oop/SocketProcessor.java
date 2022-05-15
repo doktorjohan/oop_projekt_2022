@@ -4,15 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.*;
 
 public class SocketProcessor implements Runnable {
     private final Logger logger;
 
     private final Queue<Socket> socketQueue;
-    private final Map<Integer, Socket> socketMap;
 
     private final Selector readSelector;
     private final Selector writeSelector;
@@ -21,7 +22,6 @@ public class SocketProcessor implements Runnable {
         this.logger = LoggerFactory.getLogger(Server.class);
 
         this.socketQueue = socketQueue;
-        this.socketMap = new HashMap<>();
 
         this.readSelector = Selector.open();
         this.writeSelector = Selector.open();
@@ -54,11 +54,12 @@ public class SocketProcessor implements Runnable {
         while (socket != null) {
             try {
                 socket.socketChannel.configureBlocking(false);
-                socketMap.put(socket.getId(), socket);
 
                 SelectionKey key = socket.socketChannel.register(this.readSelector, SelectionKey.OP_READ);
                 key.attach(socket);
 
+                logger.info("Added socket " + socket.toString());
+                readSelector.select();
                 socket = this.socketQueue.poll();
             } catch (IOException e) {
                 logger.error(e.getMessage());
@@ -67,18 +68,42 @@ public class SocketProcessor implements Runnable {
     }
 
     private void readSockets() throws IOException {
-        Set<SelectionKey> selectedKeys = this.readSelector.selectedKeys();
 
-        selectedKeys.forEach(this::readSocket);
-        selectedKeys.clear();
+        //int numberOfKeys = readSelector.select();
+        //logger.info(String.valueOf(numberOfKeys));
+        Set<SelectionKey> selectedKeys = this.readSelector.selectedKeys();
+        Iterator<SelectionKey> i = selectedKeys.iterator();
+
+        while (i.hasNext()) {
+            SelectionKey key = i.next();
+
+            if (key.attachment() == null) {
+                logger.info("socket is null");
+                return;
+            }
+
+            if (key.isReadable()) {
+                readSocket(key);
+            }
+            i.remove();
+        }
+
+        //logger.info(selectedKeys.toString());
+
     }
 
     private void readSocket(SelectionKey selectionKey) {
+
         Socket socket = (Socket) selectionKey.attachment();
+        logger.info("reading socket " + socket.toString());
 
         try {
+
             socket.read();
-            socket.process();
+            SelectionKey key = socket.socketChannel.register(this.writeSelector, SelectionKey.OP_WRITE);
+            key.attach(socket);
+            this.writeSelector.select();
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
             logger.error(ioe.getMessage() + " on socketprocessor readSocket()");
@@ -88,11 +113,11 @@ public class SocketProcessor implements Runnable {
             int socketId = socket.getId();
 
             try {
-                this.socketMap.remove(socketId);
-
                 selectionKey.attach(null);
                 selectionKey.cancel();
                 selectionKey.channel().close();
+                System.out.println("Closed socket channel");
+                logger.info("Closed socket channel");
             } catch (IOException e) {
                 logger.error("Failed to close socket channel: " + socketId);
             }

@@ -6,27 +6,33 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class FileDataController implements DataController {
-    @Override
-    public int read(Socket socket, ByteBuffer byteBuffer) {
-        try {
-            int bytesRead = socket.socketChannel.read(byteBuffer);
-            int totalBytesRead = bytesRead;
+  @Override
+  public int read(Socket socket, ByteBuffer byteBuffer) {
+    try {
 
-            while (bytesRead > 0) {
-                bytesRead = socket.socketChannel.read(byteBuffer);
-                totalBytesRead += bytesRead;
-            }
+      if (!(socket.socketChannel == null)) {
 
-            /*
 
-            if (bytesRead == -1)
-                socket.setEndOfStream(true);
+        int bytesRead = socket.socketChannel.read(byteBuffer);
+        int totalBytesRead = bytesRead;
+        System.out.println(totalBytesRead);
 
-            return totalBytesRead;
-*/
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (bytesRead > 0) {
+          bytesRead = socket.socketChannel.read(byteBuffer);
+          byteBuffer.flip();
+          totalBytesRead += bytesRead;
         }
-        return -1;
+
+        if (bytesRead == -1)
+          socket.setEndOfStream(true);
+
+        return totalBytesRead;
+
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return -1;
+  }
 }
