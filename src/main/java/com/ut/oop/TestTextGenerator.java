@@ -25,4 +25,8 @@ public class TestTextGenerator {
             }
         }
     }
+
+    public static void main(String[] args) {
+        generate("dummygen.txt");
+    }
 }

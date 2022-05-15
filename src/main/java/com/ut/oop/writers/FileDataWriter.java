@@ -15,19 +15,14 @@ public class FileDataWriter implements DataWriter {
     public int write(Socket socket, ByteBuffer byteBuffer){
         int bytesWritten = 0;
         int totalBytesWritten = bytesWritten;
+
         try {
             bytesWritten = socket.socketChannel.write(byteBuffer);
 
-            while (bytesWritten > 0 && byteBuffer.hasRemaining()) {
+            while (bytesWritten != -1 && byteBuffer.hasRemaining()) {
                 bytesWritten = socket.socketChannel.write(byteBuffer);
                 totalBytesWritten += bytesWritten;
             }
-
-            //TODO: determine end of writing
-
-            ByteBuffer endStatement = ByteBuffer.wrap("end".getBytes(StandardCharsets.UTF_8));
-            endStatement.flip();
-            socket.socketChannel.write(endStatement);
 
         } catch (IOException e) {
             e.printStackTrace();
