@@ -9,7 +9,7 @@ public class Client {
 
     TestTextGenerator.main(new String[0]);
     Thread.sleep(500);
-
+    FileClient.main(new String[0]);
 
     while (true) {
       //TODO: clear file sometimes
