@@ -1,6 +1,5 @@
 package com.ut.oop;
 
-import java.io.File;
 
 public class Client {
 

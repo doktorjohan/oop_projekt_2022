@@ -3,8 +3,10 @@ package com.ut.oop;
 import com.ut.oop.controllers.ArduinoController;
 import com.ut.oop.controllers.DataController;
 import com.ut.oop.controllers.RasPiController;
+import com.ut.oop.processor.DataProcessor;
 import com.ut.oop.processor.EchoDataProcessor;
 import com.ut.oop.controllers.FileDataController;
+import com.ut.oop.processor.ThresholdDataProcessor;
 import com.ut.oop.writers.FileDataWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.*;
@@ -47,51 +50,40 @@ public class SocketAccepter implements Runnable {
         while (true) {
             try {
 
-                SocketChannel client = serverSocketChannel.accept();
+                final SocketChannel client = serverSocketChannel.accept();
 
                 this.socketQueue.add(new Socket(nextSocketId++, client, new FileDataController(), new FileDataWriter(), new EchoDataProcessor()));
 
 
-
-                /*
                 Runnable socketSetup = () -> {
-                    // TODO: siin saab kasutaja sisendit küsidda socketi seadistamiseks
-                    System.out.println("To choose a device or format type: arduino/rasp-pi/tekst");
-                    List<String> formats = Arrays.asList("arduino", "rasp-pi", "tekst");
-                    Scanner sc = new Scanner(System.in);
 
-                    DataController controller;
+                    DataProcessor processor;
+                    String processorLabel;
+                    ByteBuffer typeBuffer = ByteBuffer.allocate(100);
 
-
-                    label:
-                    while (true) {
-                        String request = sc.next().toLowerCase(Locale.ROOT);
-                        if (!formats.contains(request)) {
-                            System.out.println("Choose correct format to proceed.");
-                        }
-                        else{
-                            switch (request) { // TODO: get correct controller
-                                case "arduino":
-                                    controller = new ArduinoController();
-                                    break label;
-                                case "rasp-pi":
-                                    controller = new RasPiController();
-                                    break label;
-                                case "tekst":
-                                    controller = new FileDataController();
-                                    break label;
-                            }
-                        }
+                    try {
+                        client.read(typeBuffer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
+                    String type = new String(typeBuffer.array()).trim();
 
-                    this.socketQueue.add(new Socket(nextSocketId++, socketChannel, controller, new FileDataWriter(), new EchoDataProcessor()));
-                    logger.info("Socket accepted: " + (nextSocketId - 1));
+                    if ("threshold".equals(type)) {
+                        processor = new ThresholdDataProcessor();
+                        processorLabel = "threshold";
+
+                    } else {
+                        processor = new EchoDataProcessor();
+                        processorLabel = "echo";
+                    }
+                    this.socketQueue.add(new Socket(nextSocketId++, client, new FileDataController(), new FileDataWriter(), processor));
+                    logger.info("Socket accepted: " + (nextSocketId - 1) + " " + processorLabel);
+
                 };
-
                 new Thread(socketSetup).start();
 
-                     */
+
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
