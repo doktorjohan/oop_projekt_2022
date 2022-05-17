@@ -4,10 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
 import java.util.*;
 
 public class SocketProcessor implements Runnable {
@@ -58,7 +56,7 @@ public class SocketProcessor implements Runnable {
         SelectionKey key = socket.socketChannel.register(this.readSelector, SelectionKey.OP_READ);
         key.attach(socket);
 
-        logger.info("Added socket " + socket.toString());
+        logger.info("Added socket " + socket);
         readSelector.select();
         socket = this.socketQueue.poll();
       } catch (IOException e) {
@@ -149,7 +147,7 @@ public class SocketProcessor implements Runnable {
     socket.process();
     try {
       socket.socketChannel.close();
-      logger.info("socket channel " + socket.toString() + " closed");
+      logger.info("socket channel " + socket + " closed");
     } catch (IOException e) {
       e.printStackTrace();
     }
