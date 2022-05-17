@@ -4,8 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.file.Path;
+import java.nio.MappedByteBuffer;
 import java.nio.file.Paths;
+
 import java.util.Random;
 
 public class TestTextGenerator {
@@ -15,17 +16,14 @@ public class TestTextGenerator {
 
         File file = new File(Paths.get(System.getProperty("user.dir")) + "\\src\\" + filename);
 
-        int i = 0;
-        try (PrintWriter pw = new PrintWriter(new FileWriter(file), true)) {
-            do {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+            for (int i = 0; i < 100; i++) {
                 pw.println(new Random().nextDouble());
-                i++;
-            } while (i < 100);
-
+                pw.flush();
+            }
         } catch (IOException e) {
             logger.error(e.getMessage() + " from TestTextGenerator");
         }
-
     }
 
     public static void main(String[] args) {

@@ -8,6 +8,7 @@ public class Client {
     while (true) {
       TestTextGenerator.main(new String[0]);
       FileClient.main(new String[0]);
+      System.gc();
       Thread.sleep(10000);
     }
 
