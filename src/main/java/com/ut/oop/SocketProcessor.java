@@ -69,8 +69,6 @@ public class SocketProcessor implements Runnable {
 
   private void readSockets() throws IOException {
 
-    //int numberOfKeys = readSelector.select();
-    //logger.info(String.valueOf(numberOfKeys));
     Set<SelectionKey> selectedKeys = this.readSelector.selectedKeys();
     Iterator<SelectionKey> i = selectedKeys.iterator();
 
@@ -120,7 +118,7 @@ public class SocketProcessor implements Runnable {
 
     } catch (IOException ioe) {
       ioe.printStackTrace();
-      logger.error(ioe.getMessage() + " on socketprocessor readSocket()");
+      logger.error(ioe.getMessage() + " on readSocket()");
     }
 
 

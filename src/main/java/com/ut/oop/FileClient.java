@@ -22,6 +22,14 @@ public class FileClient {
         try {
 
             SocketChannel client = SocketChannel.open(new InetSocketAddress(ServerConfig.PORT));
+
+            String type = "threshold";
+            ByteBuffer typeBuffer = ByteBuffer.allocate(100);
+            typeBuffer.put(type.getBytes(StandardCharsets.UTF_8));
+            typeBuffer.flip();
+            client.write(typeBuffer);
+            Thread.sleep(1000);
+
             giveData(client);
 
             while (true) {
@@ -43,7 +51,7 @@ public class FileClient {
             }
             client.close();
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
